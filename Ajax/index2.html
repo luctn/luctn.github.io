@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input id="key">
+        <button onclick="getImage()">Find</button>
+        <div id="img"></div>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            function getJsonImage(key){
+                return new Promise(function(resolve){
+                    axios.get(`https://api.giphy.com/v1/gifs/search?q=${key}&api_key=jcPqP8n8pW2y3qOky7M17c0QXea0p6cF`)
+                    .then(function(json){
+                    resolve(json.data.data[0]);
+                })
+                })
+            }
+            function getImage(){
+                //lay du lieu
+                let key = document.getElementById("key").value;
+                //thay the tham so q trong api
+                getJsonImage(key).then(result=>{
+                    //lay ra duong dan
+                    let imgSrc = result.images.downsized.url;
+                    // Tao the img
+                    let img = document.createElement('img');
+                    img.src=imgSrc;
+                    //Tim kiem the img va them anh vao the nay
+                    let getImgElement=document.getElementById("img");
+                    getImgElement.appendChild(img);
+                })
+            }
+        </script>
+    </div>
+</body>
+</html>
